@@ -1,48 +1,11 @@
-import express, { json } from "express"
+import app from "./app.js";
+import connectionWithDatabase from "./db/index.js";
 
-const app =express();
-let mytoken =1234;
 
-app.use(express.json())
-
-const checkupdate = (req, res, next)=>{
-    if(req.query.token == "" || req.query.token == undefined){
-        res.send(
-            {
-                status :0,
-                msg : "please fill token"
-            }
-        )
+connectionWithDatabase()
+.then(()=>{
+    app.listen(process.env.PORT || 5000 ,()=>{
+        console.log(`Server Start at port http://localhost:${process.env.PORT}`); 
     }
-    if(req.query.token != mytoken){
-        res.send(
-            {
-                status:0,
-                msg: "Please fill the correct token"
-            }
-        )
-    }
-    next()
-}
-
-app.use(checkupdate)
-
-app.get('/myPage', (req,res)=>{
-    res.send(
-        {
-            status :1,
-            massage:"Hello kabeer"
-        }
     )
 })
-
-app.post('/login', (req, res)=>{
-    console.log(req.body);
-    res.send({
-        status : 1,
-        msg : "login successfull"
-    })
-})
-
-
-app.listen(8000, console.log("server start successfull"))
