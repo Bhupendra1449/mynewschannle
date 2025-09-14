@@ -1,1 +1,1 @@
-export const DB_NAME = mynews
+export const DB_NAME = "mynews"
